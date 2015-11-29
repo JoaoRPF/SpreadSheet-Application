@@ -1,0 +1,30 @@
+package calc.core;
+
+public abstract class FuncaoIntervalo extends Funcao{
+	
+	public String funcao;
+	public String intervalo;
+	public Matriz matriz;
+	
+	public void setFuncao(String funcao){
+		this.funcao=funcao;
+	}
+	
+	public String getFuncao(){
+		return this.funcao;
+	}
+	
+	public Integer getConteudo(){
+		return calcula();
+	}
+	
+	public String toString(){
+					
+		int[] gama = Parser.parseIntervalo(this.intervalo);
+		
+		if (calcula()==null)
+			return "#VALUE"+"="+this.funcao+"("+gama[0]+";"+gama[1]+":"+gama[2]+";"+gama[3]+")";
+		else
+			return calcula()+"="+this.funcao+"("+gama[0]+";"+gama[1]+":"+gama[2]+";"+gama[3]+")";
+	}
+}

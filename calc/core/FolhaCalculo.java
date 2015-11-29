@@ -1,0 +1,153 @@
+package calc.core;
+
+import java.io.Serializable;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
+ 
+/**
+ * Class FolhaCalculo allows the creation of new spreadsheets (identified by name)
+ * and is responsible for managing one matrix and one buffer
+ *
+ *@author Joao Ferreira
+ */
+
+public class FolhaCalculo implements Serializable {
+	
+	/** Serial number for serialization. */
+	private static final long serial=1133123125465514L;
+	
+	/** Spreadsheet matrix */
+	private Matriz m;
+
+	/** Spreadsheet buffer */
+	private Buffer vetor; 
+	
+	/** Spreadsheet name */
+	private String nomeFolha=null;
+	
+	/**
+	 * Constructor for the spreeadsheet (receiving the number of lines and columns)
+	 * 
+	 * @param numLinhas
+	 *            	spreadsheet number of lines
+	 * @param numColunas
+	 *				spreadsheet number of columns
+	 */
+	public FolhaCalculo (int numLinhas, int numColunas) {
+		this.m=new Matriz(numLinhas,numColunas);
+		this.vetor=new Buffer();
+	}
+	
+	/**
+	 * Constructor for the spreadsheet (without receiving any parameters)
+	 */
+	public FolhaCalculo(){
+		this.m = new Matriz();
+		this.vetor=new Buffer();
+	}
+	
+	/**
+	 * Returns the matrix of the spreadsheet.
+	 * 
+	 * @return the matrix of the spreadsheet.
+	 */
+	public Matriz getMatriz(){
+		return this.m;
+	}
+	
+	/**
+	 * Gives one matrix to the spreadsheet.
+	 * 
+	 * @param m
+	 * 				spreadsheet matrix
+	 */
+	public void setMatriz(Matriz m){
+		this.m=m;
+	}
+	
+	/**
+	 * Returns the spreadsheet.
+	 * 
+	 * @return the spreadsheet.
+	 */
+	public FolhaCalculo getFolha(){
+		return this;
+	}
+	
+	/**
+	 * Gives a name to the spreadsheet.
+	 * 
+	 * @param nomeFolha
+	 * 				spreadsheet name
+	 */
+	public void setNomeFolha(String nomeFolha){
+		this.nomeFolha=nomeFolha;
+	}
+	
+	/**
+	 * Returns the name of the spreadsheet.
+	 * 
+	 * @return the name of the spreadsheet.
+	 */
+	public String getNomeFolha(){
+		return this.nomeFolha;
+	}
+	
+	/**
+	 * Gives a buffer to the spreadsheet.
+	 * 
+	 * @param vetor
+	 * 				spreadsheet buffer
+	 */
+	public void setBuffer(Buffer vetor){
+		this.vetor=vetor;
+	}
+	
+	/**
+	 * Returns the buffer of the spreadsheet.
+	 * 
+	 * @return the buffer of the spreadsheet.
+	 */
+	public Buffer getBuffer(){
+		return this.vetor;
+	}
+	
+	/**
+	 * Loads the previous status of the application that was 
+	 * saved in a file
+	 * 
+	 * @param file
+	 * 				name of the file with serialized data
+	 *
+	 *@throws IOException if happens an error while reading
+	 * the status
+	 * 
+	 * @return an object spreadsheet with the new data
+	 */
+	public static FolhaCalculo load(String file) throws IOException, ClassNotFoundException{
+	  ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+
+	  FolhaCalculo fc = (FolhaCalculo)in.readObject();
+	  in.close();
+
+	  return fc;
+	}
+	
+	/**
+	 * Saves the actual status of the application
+	 *
+	 * @param file 
+	 * 				name of the file with the new data for serialization
+	 *
+	 * @throws IOException if happens an error while saving the new 
+	 * status
+	 **/
+	public void save(String file) throws IOException {
+	  ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+	  out.writeObject(this);
+	  out.close();
+	}
+}

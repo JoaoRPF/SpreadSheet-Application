@@ -1,0 +1,139 @@
+package calc.core;
+
+import java.io.*;
+
+public class Parser {
+    
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+	String fileName = System.getProperty("import");
+	
+	parseFile(fileName);
+    }
+
+    public static FolhaCalculo parseFile(String nomeFicheiro) throws IOException, FileNotFoundException {
+	BufferedReader reader = null;
+
+	try {
+	    reader = new BufferedReader(new FileReader(nomeFicheiro));
+	    String linha;
+	    int linhas, colunas;
+	    String[] args;
+	    
+	    linha = reader.readLine();
+	    args = linha.split("=");
+	    linhas = Integer.parseInt(args[1]);
+	    
+	    linha = reader.readLine();
+	    args = linha.split("=");
+	    colunas = Integer.parseInt(args[1]);
+	    
+	    FolhaCalculo folha = null: // criar uma folha de calculo com tamanho linhas colunas
+	    
+	    while ((linha = reader.readLine()) != null) {
+		parseExpressao(folha, linha);
+	    }
+	    
+	    return folha;
+	} finally {
+	    if (reader != null)
+		reader.close();
+	}
+    }
+
+    public static void parseExpressao(FolhaCalculo folha, String expressao) {
+	String[] args = expressao.split("\\|");
+	int[] endereco = parseEndereco(args[0]);
+	Conteudo cont = null;
+
+	if (args.length > 1)
+	    cont = parseConteudo(folha, args[1]);
+	
+	folha.set(endereco[0], endereco[1], cont); // coloca conteudo cont na linha e coluna pretendidas da folha de calculo
+    }
+
+    public static int[] parseEndereco(String endereco) {
+	String[] args = endereco.split(";");
+	int[] vec = {Integer.parseInt(args[0]), Integer.parseInt(args[1])};
+	return vec;
+    }
+
+    public static Conteudo parseConteudo(FolhaCalculo folha, String conteudo) {
+	if (conteudo.contains("(")) { // é uma função
+	    String funcao = conteudo.substring(1); // remove =
+	    String nomeFuncao = parseNomeFuncao(funcao);
+	    String argumento = parseArgumentoFuncao(funcao);
+
+	    if (conteudo.contains(","))
+		return parseFuncaoBinaria(folha, nomeFuncao, argumento);
+	    else
+		return parseFuncaoIntervalo(folha, nomeFuncao, argumento);
+	} else if (conteudo.contains("=")) {  // é uma referencia 
+	    return parseReferencia(folha, conteudo.substring(1));
+	} else
+	    return parseLiteral(conteudo);
+    }
+
+    private static String parseNomeFuncao(String funcao) {
+	return funcao.substring(0, funcao.indexOf("("));
+    }
+
+    private static String parseArgumentoFuncao(String funcao) {
+	return funcao.substring(funcao.indexOf("(") + 1, funcao.indexOf(")"));
+    }
+
+    public static FuncaoBinaria parseFuncaoBinaria(FolhaCalculo folha, String nomeFuncao, String argumento) {
+	String[] argumentos = argumento.split(",");
+
+	Argumento arg1 = parseArgumento(folha, argumentos[0]);
+	Argumento arg2 = parseArgumento(folha, argumentos[1]);
+
+	switch(nomeFuncao) {
+	case "MUL":
+	    //return new Mul(/*       */);
+	case "DIV":
+	    //return new Div(/*       */);
+	case "SUB":
+	    //return new Sub(/*       */);
+	case "ADD":
+	    //return new Add(/*       */);
+	}
+	
+	return null;
+    }
+
+    public static FuncaoIntervalo parseFuncaoIntervalo(FolhaCalculo folha, String nomeFuncao, String argumento) {
+	String[] argumentos = argumento.split(":");
+
+	int[] end1 = parseEndereco(argumentos[0]);
+	int[] end2 = parseEndereco(argumentos[1]);
+
+	switch(nomeFuncao) {
+	case "PRD":
+	    //return new PRD(/*       */);
+	case "AVG":
+	    //return new Avg(/*       */);
+	}
+	
+	return null;
+    }
+
+    public static Argumento parseArgumento(FolhaCalculo folha, String argumento) {
+	if (argumento.contains(";")) {
+	    return parseReferencia(folha, argumento);
+	}
+	
+	return parseLiteral(argumento);
+	
+    }
+
+
+    public static ValorLiteral parseLiteral(String literal) {
+	return new Literal(/* o argumento que representa o literal */);
+    }
+
+    public static Referencia parseReferencia(FolhaCalculo folha, String referencia) {
+	int[] vec = parseEndereco(referencia);
+	
+	return new Referencia(/* folha e o endereco */);
+    }
+}

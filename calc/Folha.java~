@@ -1,0 +1,19 @@
+package calc;
+
+import pt.utl.ist.po.ui.UserInteraction;
+import pt.utl.ist.po.ui.Menu;
+
+import calc.core.FolhaCalculo;
+import calc.menu.MainMenu;
+
+public class Folha {
+	
+	public static void main(String args[]) {
+		Folha folha  = null;
+		MainMenu menu;
+		menu = new MainMenu(folha);
+		menu.open();
+	}
+}
+
+

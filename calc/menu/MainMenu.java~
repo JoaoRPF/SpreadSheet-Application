@@ -1,0 +1,24 @@
+package calc.menu;
+
+import pt.utl.ist.po.ui.Menu;
+import pt.utl.ist.po.ui.Command;
+import pt.utl.ist.po.ui.Display;
+
+import calc.textui.main.*;
+import calc.core.*; 
+import calc.menu.mainMenu.*;
+import calc.textui.Calc;
+
+public class MainMenu extends Menu{
+	
+	public MainMenu(Calc f){
+		super(MenuEntry.TITLE, new Command<?>[] {
+			new New(f),
+			new Open(f),
+			new Save(f),
+			new SaveAs(f),
+			new OpenCalcMenu(f),
+			new OpenSearchMenu(f)
+		});
+	}
+}

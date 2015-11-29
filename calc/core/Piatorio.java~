@@ -1,0 +1,37 @@
+package calc.core;
+
+import java.util.*;
+import pt.utl.ist.po.ui.*;
+
+public class Piatorio extends FuncaoIntervalo{
+
+	public Piatorio(String funcao, String intervalo, Matriz matriz){
+		this.intervalo=intervalo;
+		this.funcao=funcao;
+		this.matriz=matriz;
+	}
+
+	public Integer calcula(){
+		int[] posicoes = Parser.parseIntervalo(this.intervalo);
+		Intervalo inter = new Intervalo (posicoes,this.matriz);
+		
+		int resultadoFinal=1;
+		int conteudoFinal=1;
+		int vezesCalcula=0;
+		
+		for(Celula celula : inter.getIntervalo()){
+			if (celula.getConteudo() == null){}
+			else{
+				String conteudo = celula.getConteudo().toString();
+				String conteudoAuxiliar = Parser.parseValor(conteudo);
+				conteudoFinal = parseInt(conteudoAuxiliar);
+				vezesCalcula++;
+			}
+			resultado=resultado*conteudoFinal;
+		}
+		if(vezesCalcula == 0)
+			return null;
+		else
+			return resultadoFinal;
+	}
+}

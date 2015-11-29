@@ -1,0 +1,48 @@
+package calc.menu.mainMenu;
+
+import calc.core.FolhaCalculo;
+
+import calc.textui.main.*;
+import calc.textui.Calc;
+
+import java.io.IOException;
+
+import pt.utl.ist.po.ui.Command;
+import pt.utl.ist.po.ui.Form;
+import pt.utl.ist.po.ui.InvalidOperation;
+import pt.utl.ist.po.ui.InputString;
+import pt.utl.ist.po.ui.InputInteger;
+
+public class Open extends Command<Calc>{
+	
+	public Open(Calc folha){
+		super(MenuEntry.OPEN, folha);
+	}
+	
+	public final void execute() throws InvalidOperation{
+		Form f = new Form(title());
+		InputString ficheiro = new InputString(f,Message.openFile());
+		f.parse();
+		
+		if(ficheiro.value() != null){
+			try{
+				FolhaCalculo folha = (FolhaCalculo.load(ficheiro.value()));
+				entity().setFolha(folha);
+				int i;
+				for(i=2;i<=5;i++){
+					menu().entry(i).visible();
+				}
+			}
+			catch (IOException e){
+				throw new InvalidOperation(Message.fileNotFound(ficheiro.value()));
+			}
+			catch (ClassNotFoundException exc){
+				throw new InvalidOperation(exc.toString());
+			}
+			int p;
+			for(p=2;p<=5;p++){
+				menu().entry(p).visible();
+			}
+		}	
+	}
+}

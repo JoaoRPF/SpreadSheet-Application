@@ -1,0 +1,83 @@
+package calc.core;
+
+import java.util.*;
+
+public class Parse{
+
+	public void InputParseFile(String file){
+		int lineno = 0;
+	    try{
+
+		BufferedReader in = new BufferedReader(new FileReader(file));
+		String s;
+
+		while ((s = in.readLine()) != null) {
+			String line = new String(s.getBytes(), "UTF-8");
+		  	lineno++;
+		  	if (lineno==1){
+		  		int linhaValor = parseTamanho(String line) //vai buscar o valor do total de linhas
+		  	}
+		  	if (lineno==2){
+		  		int colunaValor = parseTamanho(String line) //vai buscar o valor do total de colunas
+		  		FolhaCalculo(int linhaValor, int colunaValor); //cria uma folha de calculo
+		  	}
+		  	if (lineno>2){
+				int[2] posicao = parsePosicao(String line);
+				int linhaCelula = posicao[0];
+				int colunaCelula = posicao[1];
+
+				String[] dadosC = line.split("\\|");
+				
+				if ((dadosC[1]).charAt(0) != '='){
+					String literalString = dadosB[1];
+					int literal = new ValorLiteral(literalString);
+					m.insereMatriz(linhaCelula, colunaCelula, literal);
+				}
+				else{
+					if((dadosB[1]).charAt(4) == "("){
+						String [] funcao = dadosB[1];
+						// criar uma nova funcao
+					}
+					else{
+						String [] referencia = dadosB[1];
+						// criar uma nova referencia
+					}
+				}
+					
+		  	}
+		}
+	}
+	
+	public int parseTamanho(String line){
+		String separadorIgual = "=";
+		String[] posicao = line.split(separadorIgual);
+		int posicaoValor = Integer.parseInt(linha[1]);
+		return posicaoValor;
+	}
+	
+	public int parsePosicao(String line){
+		int [] posicao = new int[2];
+		String separadorPontoVirgula = ";";
+		String[] dadosA = line.split(separadorPontoVirgula);
+		int linhaCelula = Integer.parseInt(dadosA[0]);
+		posicao[0] = linhaCelula;
+		String separadorBarra = ("\\|");
+		String[] dadosB = (dadosA[1]).split(separadorBarra);
+		int colunaCelula = Integer.parseInt(dadosB[0]);
+		posicao[1] = colunaCelula;
+		return posicao;
+	}
+	
+	public String parseConteudo(String line){
+		String separadorBarra = ("\\|");
+		String[] dadosC = line.split(separadorBarra);
+		if (dadosC[1].charAt(0) != '='){
+			String literalString = dadosC[1];
+			return literalString;
+			int literal = new ValorLiteral(literalString);
+			m.insereMatriz(linhaCelula, colunaCelula, literal);
+		
+		
+		
+		
+		

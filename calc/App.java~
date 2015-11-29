@@ -1,0 +1,32 @@
+package calc;
+
+import pt.utl.ist.po.ui.UserInteraction;
+import pt.utl.ist.po.ui.Menu;
+
+import calc.core.FolhaCalc;
+import calc.menu.CalcMenu;
+
+/**
+ * This is a sample FolhaDeCalculo.
+ * 
+ @author :		group 60
+ *						Bernardo Graça 76531
+ *						Vasco Fernandes 76462
+ *						Rui Furtado 76379
+ * @version 1.0
+ */
+
+public class App {
+	/**
+	 * @param args
+	 */
+	public static void main(String args[]) {
+		FolhaCalc folha  = new FolhaCalc(10,10);
+		CalcMenu menu = new CalcMenu(folha);	
+		//IO.setTitle("App Menu");
+		menu.open();
+		//IO.close();
+	}
+}
+
+

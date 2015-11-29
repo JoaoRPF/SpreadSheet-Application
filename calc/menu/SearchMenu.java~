@@ -1,0 +1,20 @@
+package calc.menu;
+
+import pt.utl.ist.po.ui.Menu;
+import pt.utl.ist.po.ui.Command;
+import pt.utl.ist.po.ui.Display;
+
+import calc.textui.search.*;
+import calc.core.*; 
+import calc.menu.searchMenu.*;
+import calc.textui.Calc;
+
+public class SearchMenu extends Menu{
+	
+	public SearchMenu(Calc f){
+		super(MenuEntry.TITLE, new Command<?>[] {
+			new SearchValue(f),
+			new SearchFunction(f)
+		});
+	}
+}
